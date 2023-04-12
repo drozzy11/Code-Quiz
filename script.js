@@ -9,10 +9,10 @@ var questions = [
     question: "Which data type is supported by JavaScript?",
     answerChoices: ["String", "Word", "Image", "Math"],
     correctAnswer: "String"
-  },
-  {
-    question: "1st question",
-    answerChoices: ["1st answer choice", "2nd", "3rd", "4th"],
+  }
+ /*{
+   question: "1st question",
+   answerChoices: ["1st answer choice", "2nd", "3rd", "4th"],
     correctAnswer: "2nd"
   },
   {
@@ -29,7 +29,7 @@ var questions = [
     question: "1st question",
     answerChoices: ["1st answer choice", "2nd", "3rd", "4th", "5"],
     correctAnswer: "2nd"
-  }
+  } */
 ]
 
 var currentQuestion = 0;
@@ -44,19 +44,20 @@ function startGame(event) {
   // 5. move on to next question
 
   // this function will start your timer
-  startTimer()
+  startTimer();
   // this function will kick off rendering the question and answers to the page
   generateQuestion();
 }
 
 function generateQuestion() {
-  var question = questions[0].question;
+  var question = questions[currentQuestion].question;
   // create an element (p, div)
   var paragraph = document.createElement("<p>");
   // write into that element using our question variable (textContent)
-  paragraph.textContent = 
+  paragraph.textContent = $(question);
   // append that question element into our quiz area (appendChild)
-
+  quizArea.appendChild(paragraph);
+  
   // generateAnswerChoices
   generateAnswerChoices();
 }
@@ -64,20 +65,21 @@ function generateQuestion() {
 function generateAnswerChoices() {
   // for loop i < questions[currentQuestion].answerChoices.length
   // create an element (button)
-
+  var answerButton = document.createElement("button");
   // write into that element using our answerChoices variable (textContent)
-
+  answerButton.textContent = $(questions[1]);
   // add event listener btn.addEventListener("click", validateAnswer)
-  
+  answerButton.addEventListener("click", validateAnswer);
   // append that question element into our quiz area (appendChild)
-
+  quizArea.appendChild(answerButton);
 }
 
 function validateAnswer(event) {
   event.preventDefault();
   // grab text of button that was clicked (event.target.textContent)
-
+  event.target.textContent
   // conditional statement test userChoice === correctAnswer
+  if (answerChoices === correctAnswer)
   // true
   //    correct answer code
   // false
