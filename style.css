@@ -1,0 +1,28 @@
+*{
+    justify-content:center;
+    align-items:center;
+    margin: auto;
+}
+
+
+
+header {
+    display: flex;
+    text-align: center;
+    justify-content: space-between;
+}
+
+header a {
+    margin-left: .5rem;
+}
+
+header h2 {
+    margin-right: .5rem;
+}
+
+main{
+    display: flex;
+    text-align: center;
+    justify-content: space-between;
+    margin-top: 2rem;
+}

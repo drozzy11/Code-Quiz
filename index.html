@@ -9,9 +9,10 @@
 </head>
 <body>
   <header>
-    <h1>Quiz!</h1>
-    <h2 id="countdown"></h2>
-    <a href="./scores.html">High Scores</a>
+    <a href="./scores.html"> View HighScores</a>
+    <h1>Coding Quiz!</h1>
+    <h2 id="countdown"></h2> 
+   
   </header>
 
   <main>
@@ -19,13 +20,14 @@
       <button id="startBtn">Start</button>
     </div>
 
-    <div id="endGame">
+    <div id="endGame" style="display:none;">
       <h2>Game Over</h2>
 
 
       <form id="score">
         <input>
-        <button>Save Score</button>
+        <button id="saveScoreBTN">Save Score</button>
+        <a href="./scores.html">High Scores</a>
       </form>
       
     </div>

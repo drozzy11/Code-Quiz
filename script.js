@@ -1,41 +1,43 @@
 var quizArea = document.getElementById("quiz");
 var startBtn = document.getElementById("startBtn");
-var timerEl = document.getElementById("countdown")
+var timerEl = document.getElementById("countdown");
+var gameOver = document.getElementById("endGame")
 var timerCount = 60;
-var score;
-
+var scoreForm = document.getElementById("score-form");
+var saveScoreBtn = document.getElementById("saveScoreBtn");
 var questions = [
   {
     question: "Which data type is supported by JavaScript?",
     answerChoices: ["String", "Word", "Image", "Math"],
     correctAnswer: "String"
-  }
- /*{
-   question: "1st question",
+  },
+ {
+   question: "2st question",
    answerChoices: ["1st answer choice", "2nd", "3rd", "4th"],
     correctAnswer: "2nd"
   },
   {
-    question: "1st question",
+    question: "3st question",
     answerChoices: ["1st answer choice", "2nd", "3rd", "4th"],
     correctAnswer: "2nd"
   },
   {
-    question: "1st question",
+    question: "4st question",
     answerChoices: ["1st answer choice", "2nd", "3rd", "4th"],
     correctAnswer: "2nd"
   },
   {
-    question: "1st question",
+    question: "5st question",
     answerChoices: ["1st answer choice", "2nd", "3rd", "4th", "5"],
     correctAnswer: "2nd"
-  } */
-]
+  } 
+];
 
 var currentQuestion = 0;
 
 function startGame(event) {
   event.preventDefault();
+  gameOver.style.display = "none";
   // start the quiz!
   // 1. Start timer
   // 2. create a question
@@ -47,56 +49,66 @@ function startGame(event) {
   startTimer();
   // this function will kick off rendering the question and answers to the page
   generateQuestion();
-}
+};
 
 function generateQuestion() {
   var question = questions[currentQuestion].question;
   // create an element (p, div)
-  var paragraph = document.createElement("<p>");
+  var paragraph = document.createElement("p");
   // write into that element using our question variable (textContent)
-  paragraph.textContent = $(question);
+  paragraph.textContent = question;
   // append that question element into our quiz area (appendChild)
   quizArea.appendChild(paragraph);
   
   // generateAnswerChoices
   generateAnswerChoices();
-}
+};
 
 function generateAnswerChoices() {
   // for loop i < questions[currentQuestion].answerChoices.length
   // create an element (button)
-  var answerButton = document.createElement("button");
-  // write into that element using our answerChoices variable (textContent)
-  answerButton.textContent = $(questions[1]);
-  // add event listener btn.addEventListener("click", validateAnswer)
-  answerButton.addEventListener("click", validateAnswer);
-  // append that question element into our quiz area (appendChild)
-  quizArea.appendChild(answerButton);
-}
+  for (var i =0; i < questions[currentQuestion].answerChoices.length; i++) { 
+    var answerButton = document.createElement("button");
+    answerButton.textContent = questions[currentQuestion].answerChoices[i];
+    answerButton.addEventListener("click", validateAnswer);
+    quizArea.appendChild(answerButton);
+  }
+};
 
 function validateAnswer(event) {
   event.preventDefault();
   // grab text of button that was clicked (event.target.textContent)
-  event.target.textContent
+  var userChoice = event.target.textContent;
+  // get the correct answer for the current question
+  var correctAnswer = questions[currentQuestion].correctAnswer;
   // conditional statement test userChoice === correctAnswer
-  if (answerChoices === correctAnswer)
-  // true
-  //    correct answer code
-  // false
-  //    incorrect answer
-  //    decrease timer by 10 secs
-  
+  if (userChoice === correctAnswer) {
+    // true
+    //    correct answer code
+    console.log("Correct!");
+  } else {
+    // false
+    //    incorrect answer
+    //    decrease timer by 10 secs
+    console.log("Incorrect!");
+    timerCount -= 10;
+  }
   // move onto the next question
+  currentQuestion++;
+  // conditional statement to check if you've reached the end of the questions array 
+  if(currentQuestion === questions.length) {
+    // end the game (call endGame())
+    endGame();
+  } else {
+    // reset quiz area (quizArea.innerHTML = "", loop using .removeChild())
+    while (quizArea.firstChild) {
+      quizArea.removeChild(quizArea.firstChild);
+    }
+    // call generateQuestion again to start on the next question
+    generateQuestion();
+  }
+};
 
-  // currentQuestion++
-  // conditional statement to check if you've reached the end of the questions array if(currentQuestion === questions.length)
-  // end the game (call endGame())
-    endGame()
-  // reset quiz area (quizArea.innerHTML = "", loop using .removeChild())
-
-  // call generateQuestion again to start on the next question
-  generateQuestion();
-}
 
 function startTimer() {
   var timeInterval = setInterval(function() {
@@ -113,12 +125,13 @@ function startTimer() {
       // Once `timeLeft` gets to 0, set `timerEl` to an empty string
       timerEl.textContent = '';
       // Use `clearInterval()` to stop the timer
-      endGame()
+      clearInterval(timeInterval);
+      endGame();
       // Call the `displayMessage()` function
       // displayMessage();
     }
   }, 1000)
-}
+};
 
 function endGame() {
   // end game whether it reaches the end of the quiz or time runs out
@@ -127,28 +140,40 @@ function endGame() {
   // score
   score = timerCount;
   // display score
-
+  getScore()
   // display high score
+
+quizArea.style.display = "none";
+// show end game div
+gameOver.style.display = "block";
 }
+
+
 
 function saveScore(event) {
   event.preventDefault();
 
   var scoreObj = {
-    intials: event.target.children[0].value,
+    initials: scoreForm.value,
     score: timerCount
-  }
+  };
   // sets the score into local storage
   localStorage.setItem("score", JSON.stringify(scoreObj));
-}
+};
 
 function getScore() {
-  // get high score out of localstorage
-  var score = JSON.parse(localStorage.getItem("score"))
-  // display to end game div
-  
+  var highScore = JSON.parse(localStorage.getItem("score"));
+  if (highScore !== null) {
+    // if there is a score saved in local storage, display it
+    console.log("High score: " + highScore.score + " by " + highScore.initials);
+  } else {
+    // if there is no score saved in local storage, display a message
+    console.log("No high score yet.");
+  }
 }
+
+  
 
 startBtn.addEventListener("click", startGame);
 
-scoreForm.addEventListener("submit", saveScore)
+saveScoreBtn.addEventListener("click", saveScore);
