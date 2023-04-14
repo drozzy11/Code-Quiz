@@ -3,7 +3,7 @@
 
 ## Description
 
-I will be building timed coding quiz with multiple-choice questions.
+I will be building timed coding quiz with multiple-choice questions. The website will allow user to type in their initials and save their highschore.
 
 ## Acceptance Criteria
 
@@ -22,3 +22,8 @@ THEN I can save my initials and my score
 ```
 
 ## Mock Up
+
+
+## Website Link
+
+[Code-Quiz](https://drozzy11.github.io/Code-Quiz/)
